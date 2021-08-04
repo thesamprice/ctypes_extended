@@ -1,0 +1,142 @@
+# Telemetry / Command Definitions file
+
+
+
+
+
+#Packet health
+TELEMETRY SystemName Health_M LITTLE_ENDIAN
+#Application Process Identifier (APID)
+   ID_ITEM    HeaderStreamidApid                             13  11 UINT  1
+
+#Secondary Header flag
+    ITEM       HeaderStreamidSecondaryHeaderPresent           12   1 UINT 
+        STATE TF_FALSE                 0
+        STATE TF_TRUE                  1
+
+
+#Packet type
+   ID_ITEM    HeaderStreamidPacketType                       11   1 UINT  0
+        STATE CCSDS_TLM                0
+        STATE CCSDS_CMD                1
+
+
+#Pacet Version Number
+   ID_ITEM    HeaderStreamidPacketVersionNumber               8   3 UINT  3
+
+# Packet Sequence Count
+    ITEM       HeaderSequenceSequenceCount                    26  14 UINT 
+
+#3 = complete packet
+    ITEM       HeaderSequenceSequenceFlags                    24   2 UINT 
+
+#The Packet data length. Total number of octets in packet data field - 1
+    ITEM       HeaderLength                                   32  16 UINT 
+
+    ARRAY_ITEM Paddingo48to64                                 48   8 UINT  16
+
+    ITEM       Voltage                                        64  32 FLOAT
+
+#Digital to analog controller from DAC
+    ITEM       Dac                                            96  16 INT  
+
+    ARRAY_ITEM Paddingz96z                                   112   8 UINT  16
+
+
+#GPS packet describing position info
+TELEMETRY SystemName Pos_M LITTLE_ENDIAN
+#Application Process Identifier (APID)
+   ID_ITEM    HeaderStreamidApid                             13  11 UINT  2
+
+#Secondary Header flag
+    ITEM       HeaderStreamidSecondaryHeaderPresent           12   1 UINT 
+        STATE TF_FALSE                 0
+        STATE TF_TRUE                  1
+
+
+#Packet type
+   ID_ITEM    HeaderStreamidPacketType                       11   1 UINT  0
+        STATE CCSDS_TLM                0
+        STATE CCSDS_CMD                1
+
+
+#Pacet Version Number
+   ID_ITEM    HeaderStreamidPacketVersionNumber               8   3 UINT  3
+
+# Packet Sequence Count
+    ITEM       HeaderSequenceSequenceCount                    26  14 UINT 
+
+#3 = complete packet
+    ITEM       HeaderSequenceSequenceFlags                    24   2 UINT 
+
+#The Packet data length. Total number of octets in packet data field - 1
+    ITEM       HeaderLength                                   32  16 UINT 
+
+    ARRAY_ITEM Paddingo48to64                                 48   8 UINT  16
+
+#position information in meters
+    ARRAY_ITEM Pos                                            64  64 FLOAT 192
+
+    ITEM       _Padding                                      256   8 UINT 
+
+    ITEM       CoordFrame                                    264   8 UINT 
+        STATE ECEF                     1
+        STATE J2K                      2
+        STATE LATLONG                  3
+
+
+    ARRAY_ITEM Paddingz264z                                  272   8 UINT  48
+
+
+#GPS packet describing position info
+TELEMETRY SystemName GPS_Cmd_M LITTLE_ENDIAN
+#Application Process Identifier (APID)
+   ID_ITEM    HeaderStreamidApid                             13  11 UINT  0
+
+#Secondary Header flag
+    ITEM       HeaderStreamidSecondaryHeaderPresent           12   1 UINT 
+        STATE TF_FALSE                 0
+        STATE TF_TRUE                  1
+
+
+#Packet type
+   ID_ITEM    HeaderStreamidPacketType                       11   1 UINT  0
+        STATE CCSDS_TLM                0
+        STATE CCSDS_CMD                1
+
+
+#Pacet Version Number
+   ID_ITEM    HeaderStreamidPacketVersionNumber               8   3 UINT  3
+
+# Packet Sequence Count
+    ITEM       HeaderSequenceSequenceCount                    26  14 UINT 
+
+#3 = complete packet
+    ITEM       HeaderSequenceSequenceFlags                    24   2 UINT 
+
+#The Packet data length. Total number of octets in packet data field - 1
+    ITEM       HeaderLength                                   32  16 UINT 
+
+    ARRAY_ITEM Paddingo48to64                                 48   8 UINT  16
+
+    ITEM       NoiseModel                                     64  32 INT  
+
+    ARRAY_ITEM Paddingo96to128                                96   8 UINT  32
+
+#constant
+    ITEM       LinearCons                                    128  64 FLOAT
+
+#slope
+    ITEM       LinearSlope                                   192  64 FLOAT
+
+    ITEM       PolyX0                                        256  64 FLOAT
+
+    ITEM       PolyX1                                        320  64 FLOAT
+
+    ITEM       PolyX2                                        384  64 FLOAT
+
+    ITEM       WaveformA                                     448  64 FLOAT
+
+    ITEM       WaveformB                                     512  64 FLOAT
+
+
