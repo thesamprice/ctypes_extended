@@ -1,3 +1,4 @@
+import ctypes_extended
 import ctypes
 import warnings
 #run `pip install enum34` if your getting a failure on the next line
@@ -33,7 +34,7 @@ class NOISE_MODELS(enum.Enum):
     POLYNOMIAL = 1
     WAVEFORM   = 2
 
-class CCSDS_PriHdr_t_StreamId (ctypes.BigEndianStructure):
+class CCSDS_PriHdr_t_StreamId (ctypes_extended.BigEndianExtendedStructure):
     """CCSDS Stream id"""
     _pack_ = 1
     _fields_ = [ 
@@ -48,14 +49,14 @@ class CCSDS_PriHdr_t_StreamId (ctypes.BigEndianStructure):
                     }
                 ),
                 ("secondary_header_present" , ctypes.c_uint16 ,
-                {
-                    {"bits":1,
+                    {
+                    "bits":1,
                     "type":bool,
                     "description":"""The Secondary Header Flag shall indicate the presence or absence of the Packet Secondary Header within this Space Packet.
 It shall be 1 if a Packet Secondary Header is present; it shall be 0 if a Packet Secondary Header is not present.
 """
-                    }
-                }  ),
+                    }  
+                ),
                 ("apid", ctypes.c_uint16 ,
                     {"bits":11,
                         "description":"""via 135.0-b-1 application ID's 2040- 2047 are reserved and should not be used.
@@ -66,7 +67,7 @@ identifies the naming domain for the APID) shall provide the naming mechanism fo
                  ]
 
 
-class CCSDS_PriHdr_t_Sequence (ctypes.BigEndianStructure):
+class CCSDS_PriHdr_t_Sequence (ctypes_extended.BigEndianExtendedStructure):
     """CCSDS Sequence ID"""
     _pack_ = 1
     _fields_ = [ ("sequence_flags" , ctypes.c_uint16 ,
@@ -84,7 +85,7 @@ class CCSDS_PriHdr_t_Sequence (ctypes.BigEndianStructure):
                ]
 
 
-class CCSDS_PriHdr_t (ctypes.BigEndianStructure):
+class CCSDS_PriHdr_t (ctypes_extended.BigEndianExtendedStructure):
     """CCSDS Header"""
     _pack_ = 1
     _fields_ = [ ("StreamId" , CCSDS_PriHdr_t_StreamId ),
@@ -116,7 +117,7 @@ def voltGet(self):
     return self._raw * (2**16)/20.0
 
 
-class Health_M (ctypes.Structure):
+class Health_M (ctypes_extended.ExtendedStructure):
     """/*!
 * @brief Packet health
 * @ingroup MESSAGES
@@ -175,30 +176,12 @@ Health_M{
                  )]
 
 
-class Pos_M (ctypes.Structure):
+class Pos_M (ctypes_extended.ExtendedStructure):
     """GPS packet describing position info"""
     ids = {
         "header.StreamId.apid":app_apids.Pos_M_ID,
         }
-"""
-
-    /*!
-    * @unit meters
-    * @brief position information in meters
-    */
-    double pos[3];
-
-    /*!
-    * @hidden
-    */
-    uint8_t _padding;
-
-    /*!
-    * @enum CordFrame
-    */
-    uint8_t coord_frame;
-
-"""
+    
     _pack_ = 1
     _apid_ = 2
     _tlm_  = 1
@@ -236,7 +219,7 @@ class Pos_M (ctypes.Structure):
                  )]
 
 
-class ModelLinear (ctypes.Structure):
+class ModelLinear (ctypes_extended.ExtendedStructure):
     """/*!
 * @brief describes y=x*slope + const
 */
@@ -259,7 +242,7 @@ ModelLinear
         pass
 
 
-class ModelPolynomial (ctypes.Structure):
+class ModelPolynomial (ctypes_extended.ExtendedStructure):
     """/*!
 * @brief describes y=x_0 + x_1*x + x_2*x*x
 */
@@ -279,7 +262,7 @@ ModelPolynomial
         pass
 
 
-class ModelWaveform (ctypes.Structure):
+class ModelWaveform (ctypes_extended.ExtendedStructure):
     """/*!
 * @brief describes y=a*sin(x) + b*cos(x)
 */
@@ -310,7 +293,7 @@ def modelSetter(self,value):
     if value != NOISE_MODELS.WAVEFORM:
         self._parent.waveform.disabled = True
     self._raw = value
-class GPS_Cmd_M (ctypes.Structure):
+class GPS_Cmd_M (ctypes_extended.ExtendedStructure):
     """Command to set noise model"""
     _pack_ = 1
     _apid_ = 0
