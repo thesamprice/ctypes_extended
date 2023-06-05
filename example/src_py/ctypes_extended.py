@@ -34,6 +34,7 @@ class _Field:
         self.help = kwargs.pop("description", f"Proxy structure field {name}")
         self.repr = kwargs.pop("repr", None)
         self.enum = kwargs.pop("enum", None)
+        self.range = kwargs.pop("range", None) #test example range(0,'inf') 
         self.unit = kwargs.pop("unit", None)
         self.default = kwargs.pop("default", None)
         if self.enum:
@@ -58,6 +59,9 @@ class _Field:
         return value
 
     def __set__(self, instance, value):
+        if value not in self.range:
+            raise ValueError('value to set is outside of range')
+
         if self.enum:
             if(type(value) is str):
                 value = self.enum[value].value
