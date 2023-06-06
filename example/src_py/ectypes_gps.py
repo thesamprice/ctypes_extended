@@ -146,6 +146,8 @@ Health_M{
    int16_t dac;
 
 """
+
+    
     ids = {"header.StreamId.packet_type":CCSDS_CMD_TLM.TLM,
            "header.StreamId.apid":app_apids.Health_M_ID,
            "header.StreamId.packet_version_number":3
@@ -171,10 +173,23 @@ Health_M{
                         "validator":voltage_validator
                     }
                  ),
+                 ("minRange"            , ctypes.c_int16,
+                    {
+                        "description":"minimum possible voltage",
+                        "unit":"volts"
+                    }
+                 ),
+                 ("maxRange"            , ctypes.c_int16,
+                    {
+                        "description":"maximum possible voltage",
+                        "unit":"volts"
+                    }
+                 ),
                  ("Padding_112_"   , ctypes.c_ubyte * 2,
                     {"hidden":True}
                  )]
-
+    minRange = 11.8
+    maxRange = 12.2
 
 class Pos_M (ctypes_extended.ExtendedStructure):
     """GPS packet describing position info"""
