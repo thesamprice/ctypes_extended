@@ -104,17 +104,17 @@ def voltage_validator(self,value):
         raise ValueError("volatage min error")
     if value > 12.2:
         raise ValueError("volatage min error")
-def voltSet(self,value):
+def voltSet(value):
     """converts a float to a int16
     voltage is assumed to be between 0 and 20v
     """
-    self._raw = int(value/20.0* (2**16))
+    return int(value/20.0* (2**16))
 
-def voltGet(self):
+def voltGet(value):
     """converts a int16  to a float
     voltage is assumed to be between 0 and 20v
     """
-    return self._raw * (2**16)/20.0
+    return value / (2**16)*20.0
 
 
 class Health_M (ctypes_extended.ExtendedStructure):
@@ -165,11 +165,12 @@ Health_M{
                      "validator":voltage_validator
                     }     
                  ),
-                 ("dac"            , ctypes.c_int16,
+                 ("dac"            , ctypes.c_uint16,
                     {
                         "description":"Digital to analog controller from DAC",
                         "setter":voltSet,
                         "getter":voltGet,
+                        "range":[11.8, 12.2],
                         "validator":voltage_validator
                     }
                  ),
@@ -188,8 +189,7 @@ Health_M{
                  ("Padding_112_"   , ctypes.c_ubyte * 2,
                     {"hidden":True}
                  )]
-    minRange = 11.8
-    maxRange = 12.2
+
 
 class Pos_M (ctypes_extended.ExtendedStructure):
     """GPS packet describing position info"""

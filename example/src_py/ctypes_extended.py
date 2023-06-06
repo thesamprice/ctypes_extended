@@ -31,13 +31,16 @@ class _Field:
         self.name = name
         self.type_ = type_
         self.real_name = "_" + name
-        self.maxRange = 10
-        self.minRange = 5
         self.help = kwargs.pop("description", f"Proxy structure field {name}")
         self.repr = kwargs.pop("repr", None)
         self.enum = kwargs.pop("enum", None)
+        self.range = kwargs.pop("range", None)
         self.unit = kwargs.pop("unit", None)
         self.default = kwargs.pop("default", None)
+        self.setter = kwargs.pop("setter", None)
+        self.getter = kwargs.pop("getter", None)
+        self.validator = kwargs.pop("kwargs", None)
+        
         if self.enum:
             self.rev_enum =  {constant.value:constant for constant in self.enum.__members__.values() }
             if not 0 in self.rev_enum and not self.default:
@@ -54,28 +57,34 @@ class _Field:
                 value = list(self.rev_enum.values())[0]
                 setattr(instance, self.real_name, value.value)
                 return value
+        if self.getter:
+            value = self.getter(value)
+
         if self.repr:
             return _repr_wrapper(value, self.repr)
 
         return value
 
     def __set__(self, instance, value):
-        print("now printing val: ", value)
-        print("now printing minRange: ", self.minRange)
-        print("now printing maxRange: ", self.maxRange)
         
-        rangeArray = [self.minRange, self.maxRange]
-
-        print ("rangeArray is", rangeArray)
-
-        if value and value not in rangeArray:
-            raise ValueError('value to set is outside of range')
+        if self.range:
+            if value < self.range[0]:
+                raise ValueError('value to set is outside of range')
+            elif value > self.range[1]:
+                raise ValueError('value to set is outside of range')
 
         if self.enum:
             if(type(value) is str):
                 value = self.enum[value].value
             else:
                 value = getattr(self.enum, value.name).value
+
+        if self.validator:
+            self.validator(value)
+        if self.setter:
+            value = self.setter(value)
+
+        
         setattr(instance, self.real_name, value)
 
 def _ExtendedStructureMetaInitFields(namespace):
@@ -128,7 +137,6 @@ class ExtendedStructure(ctypes.Structure, metaclass=_ExtendedStructureMeta):
     def __init__(self):
         for field in self._default_fields:
             setattr(self,field[0],field[1])
-        print("meta init",self._fields_) 
         return super().__init__() 
 
 
