@@ -28,6 +28,9 @@ print(health.dac)
 # Health will be initalized with valid data initally
 # We will modify it to become invalid on a per parameter basis 
 
+#make a deep copy of the parent struct
+parentStructCopy=cpy.deepcopy(health) 
+
 file_counter = 0
 for f in health._efields_:
   
