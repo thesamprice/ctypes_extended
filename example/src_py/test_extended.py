@@ -1,6 +1,9 @@
 import copy as cpy
 import ectypes_gps as gps
 #import pytest
+import importlib
+import inspect
+import ctypes
  
 
 health = gps.Health_M()
@@ -31,4 +34,36 @@ for f in health._efields_:
       fid.write(health)
       file_counter += 1
 
+
+print('\n', '\n')
+print("scanning python modules for command/telemetry data...")
+print('\n', '\n')
+
+
+#scan tlm_dictionary for ctypes
+module1 = importlib.import_module('tlm_dictonary')
+tlmDictCtypesScan = []
+
+for name, obj in inspect.getmembers(module1):
+    if name.find('CType') != -1:
+        tlmDictCtypesScan.append(name)
+        #print(f'Found a ctypes structure: {name}')
+
+print("the ctypes for command/telemetry in tlm_dictionary are: ", tlmDictCtypesScan)
+
+print('\n', '\n')
+
+
+#scan tlm_sqllite for ctypes
+module2 = importlib.import_module('tlm_sqllite')
+tlmSqlliteCtypesScan = []
+
+for name, obj in inspect.getmembers(module2):
+    if name.find('CType') != -1:
+        tlmSqlliteCtypesScan.append(name)
+        #print(f'Found a ctypes structure: {name}')
+
+print("the ctypes for command/telemetry in tlm_sqllite are: ", tlmSqlliteCtypesScan)
+
+print('\n', '\n') 
 
