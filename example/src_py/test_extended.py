@@ -1,6 +1,7 @@
 
 import ectypes_gps as gps
 #import pytest
+import copy as cpy
  
 
 health = gps.Health_M()
@@ -13,20 +14,6 @@ except:
   print("Exception caught")
   
 print(health.dac)
-
-# NEXT STEPS
-# iterate through all fields
-# Make a deep copy of the parent struct
-# for each range / enum attribute
-# Set the field
-# Save the data to a file
-
-# After that we need to disable the validation, 
-# and set the ranges outside of the valid range.
-
-# More context
-# Health will be initalized with valid data initally
-# We will modify it to become invalid on a per parameter basis 
 
 #make a deep copy of the parent struct
 parentStructCopy=cpy.deepcopy(health) 
