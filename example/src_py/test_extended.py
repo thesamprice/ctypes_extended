@@ -42,6 +42,15 @@ print("scanning python modules for command/telemetry data...")
 print('\n', '\n')
 
 
+"""
+module1 = importlib.import_module('tlm_dictonary')
+
+print("dir is: ", dir(module1), '\n')
+
+command_telem_data = [func for func in dir(module1) if callable(getattr(module1, func)) and type(getattr(module1, func)(ctypes.Structure))==ctypes.Structure]
+"""
+
+
 #scan tlm_dictionary for ctypes
 module1 = importlib.import_module('tlm_dictonary')
 tlmDictCtypesScan = []
@@ -68,4 +77,6 @@ for name, obj in inspect.getmembers(module2):
 print("the ctypes for command/telemetry in tlm_sqllite are: ", tlmSqlliteCtypesScan)
 
 print('\n', '\n') 
+
+
 
