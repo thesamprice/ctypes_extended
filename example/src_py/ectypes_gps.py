@@ -173,19 +173,7 @@ Health_M{
                         "range":[11.8, 12.2],
                         "validator":voltage_validator
                     }
-                 ),
-                 ("minRange"            , ctypes.c_int16,
-                    {
-                        "description":"minimum possible voltage",
-                        "unit":"volts"
-                    }
-                 ),
-                 ("maxRange"            , ctypes.c_int16,
-                    {
-                        "description":"maximum possible voltage",
-                        "unit":"volts"
-                    }
-                 ),
+                 ),               
                  ("Padding_112_"   , ctypes.c_ubyte * 2,
                     {"hidden":True}
                  )]
