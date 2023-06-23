@@ -10,6 +10,12 @@ enum app_apids{
 
 };
 
+enum ERROR_CODES{
+    SUCCESS=0,
+    ERROR_UNKOWN_CMD=-999,
+    ERROR_BAD_LENGTH=-1
+};
+
 /*!
 * @brief Packet health
 * @ingroup MESSAGES
