@@ -52,15 +52,19 @@ command_telem_data = [func for func in dir(module1) if callable(getattr(module1,
 
 
 #scan tlm_dictionary for ctypes
-module1 = importlib.import_module('tlm_dictonary')
-tlmDictCtypesScan = []
+#import ectypes_gps.py
+module1 = importlib.import_module('ectypes_gps')
+print("module1 is: ", module1)
+ectypesCtypesScan = []
 
 for name, obj in inspect.getmembers(module1):
+    if hasattr(obj, '_tlm_'):
+       print(obj, "is tlm/cmd data \n\n")
     if name.find('CType') != -1:
-        tlmDictCtypesScan.append(name)
+        ectypesCtypesScan.append(name)
         #print(f'Found a ctypes structure: {name}')
 
-print("the ctypes for command/telemetry in tlm_dictionary are: ", tlmDictCtypesScan)
+print("the ctypes for command/telemetry in ectypes_gps are: ", ectypesCtypesScan)
 
 print('\n', '\n')
 
