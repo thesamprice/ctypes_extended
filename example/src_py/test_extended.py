@@ -54,33 +54,14 @@ command_telem_data = [func for func in dir(module1) if callable(getattr(module1,
 #scan tlm_dictionary for ctypes
 #import ectypes_gps.py
 module1 = importlib.import_module('ectypes_gps')
-print("module1 is: ", module1)
+
 ectypesCtypesScan = []
 
 for name, obj in inspect.getmembers(module1):
     if hasattr(obj, '_tlm_'):
-       print(obj, "is tlm/cmd data \n\n")
-    if name.find('CType') != -1:
-        ectypesCtypesScan.append(name)
-        #print(f'Found a ctypes structure: {name}')
+       print("TLM/CMD data: ", obj, "\n\n")
+       ectypesCtypesScan.append(obj)
 
-print("the ctypes for command/telemetry in ectypes_gps are: ", ectypesCtypesScan)
+print("cTypes for CMD/TLM in ectypes_gps are: ", ectypesCtypesScan)
 
 print('\n', '\n')
-
-
-#scan tlm_sqllite for ctypes
-module2 = importlib.import_module('tlm_sqllite')
-tlmSqlliteCtypesScan = []
-
-for name, obj in inspect.getmembers(module2):
-    if name.find('CType') != -1:
-        tlmSqlliteCtypesScan.append(name)
-        #print(f'Found a ctypes structure: {name}')
-
-print("the ctypes for command/telemetry in tlm_sqllite are: ", tlmSqlliteCtypesScan)
-
-print('\n', '\n') 
-
-
-
