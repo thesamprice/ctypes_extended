@@ -1,8 +1,8 @@
-
+import copy as cpy
 import ectypes_gps as gps
-#import pytest
 
 import copy as cpy
+
 import importlib
 import inspect
 import ctypes
@@ -19,9 +19,10 @@ except:
   
 print(health.dac)
 
-#make a deep copy of the parent struct
-parentStructCopy=cpy.deepcopy(health) 
+parentStructCopy=cpy.deepcopy(health) #make a deep copy of the parent struct 
 
+
+#Write binary files for fuzzing
 file_counter = 0
 for f in health._efields_:
   
@@ -34,7 +35,6 @@ for f in health._efields_:
     with open(f'{type(health).__name__}_{file_counter}.bin', 'wb') as fid:
       fid.write(health)
       file_counter += 1
-
 
 
 print('\n', '\n')
@@ -53,3 +53,4 @@ for name, obj in inspect.getmembers(module1):
        ectypesCtypesScan.append(obj)
 
 print("cTypes for CMD/TLM in ectypes_gps are: ", ectypesCtypesScan,'\n', '\n')
+
