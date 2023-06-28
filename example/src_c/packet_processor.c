@@ -60,3 +60,8 @@ int Pos(const void *data){
 
     return SUCCESS;
 }
+
+int main()
+{
+    return 0;
+}

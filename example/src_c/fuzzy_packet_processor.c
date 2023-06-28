@@ -5,6 +5,31 @@
 #include <stddef.h>
 extern int process_packet(const void * data);
 
+
+int process_packet(const void * data){
+    int status;
+    /* Type cast input to a header type */
+    const CCSDS_PriHdr_t * header = (const CCSDS_PriHdr_t*) data;
+    /* get apid (Not proper way, but works for example)*/
+    int apid = header->StreamId;
+
+    switch(apid){
+        case Health_M_ID:
+            //status = Health(data);
+            break;
+        case GPS_Cmd_M_ID:
+            //status = GPS_Cmd(data);
+            break;;
+        case Pos_M_ID:
+            //status = Pos(data);
+            break;
+        default:
+            status = ERROR_UNKOWN_CMD; 
+    }
+
+    return status;
+}
+
 int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     /* Type cast input to a header type */
     const CCSDS_PriHdr_t * header = (const CCSDS_PriHdr_t*) data;
@@ -23,4 +48,14 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     process_packet(data);
 
     return 0;  // Values other than 0 and -1 are reserved for future use.
+}
+
+
+int main()
+{
+    //get binaries & sizes, then send into fuzzer input 
+    //LLVMFuzzerTestOneInput(datas, sizeVal);
+
+
+    return 0;
 }
